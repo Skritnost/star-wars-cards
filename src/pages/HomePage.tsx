@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePeople } from '../hooks/use-people';
+import { usePeople } from '@/hooks/use-people';
 import { useNavigate } from "react-router-dom"
 import PersonCard from '@/components/PersonCard';
 import {
