@@ -1,0 +1,16 @@
+export default {
+  verbose: true,
+  testEnvironment: "jest-environment-jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  moduleNameMapper: {
+    "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/test/__mocks__/fileMock.js",
+    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+  },
+  transformIgnorePatterns: [
+    "node_modules/(?!lucide-react)",
+  ],
+};
