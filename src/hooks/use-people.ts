@@ -15,13 +15,13 @@ export interface PeopleResponse {
     results: Person[];
 }
 
-export function usePeople(page: number) {
+export function usePeople(page: number, search?: string) {
     return useQuery<PeopleResponse>({
-        queryKey: ['people', { page }],
+        queryKey: ['people', { page, search }],
         queryFn: async ({ queryKey }) => {
-            const [_key, { page }] = queryKey as [string, { page: number; }];
+            const [_key, { page }] = queryKey as [string, { page: number; search: string; }];
             const response = await axios.get<PeopleResponse>(
-                `https://swapi.dev/api/people/?page=${page}`
+                `https://swapi.dev/api/people/?page=${page}&search=${search}`
             );
             const updatedPeople = response.data.results.map((person) => {
                 const localKey = `person-${getIdFromUrl(person.url)}`;
