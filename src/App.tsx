@@ -10,11 +10,15 @@ const App: React.FC = () => {
   return (
       <QueryClientProvider client={queryClient}>
           <Router>
-              <NavBar />
-              <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  {/* Future route: <Route path="/character/:id" /> */}
-              </Routes>
+              <header className="fixed top-0 left-0 w-full z-50">
+                  <NavBar/>
+              </header>
+              <div className="pt-18 overscroll-none">
+                  <Routes>
+                      <Route path="/" element={<HomePage/>}/>
+                      {/* Future route: <Route path="/character/:id" /> */}
+                  </Routes>
+              </div>
           </Router>
       </QueryClientProvider>
   );
