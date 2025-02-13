@@ -1,4 +1,3 @@
-// src/components/LoadingOverlay.tsx
 import React from 'react';
 
 const LoadingOverlay: React.FC = () => {
