@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { usePeople } from '../hooks/use-people';
+import { useNavigate } from "react-router-dom"
 import PersonCard from '@/components/PersonCard';
 import {
     Pagination,
@@ -10,8 +11,10 @@ import {
     PaginationLink,
 } from '@/components/ui/pagination';
 import LoadingOverlay from '@/components/LoadingOverlay.tsx';
+import { getIdFromUrl } from '@/utils/get-id-from-url.ts';
 
 const HomePage: React.FC = () => {
+    const navigate = useNavigate()
     const [page, setPage] = useState<number>(1);
     const {data, isLoading, isError, isFetching} = usePeople(page);
 
@@ -32,8 +35,8 @@ const HomePage: React.FC = () => {
             <div className="min-h-screen p-4">
                 <div className="container mx-auto">
                     <div className="grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        {data?.results.map(({name, avatar}) => (
-                            <PersonCard key={name} name={name} avatar={avatar}/>
+                        {data?.results.map(({name, avatar, url}) => (
+                            <PersonCard onClick={() => navigate(`/${getIdFromUrl(url)}`)} key={name} name={name} avatar={avatar}/>
                         ))}
                     </div>
 
