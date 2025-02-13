@@ -1,5 +1,6 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import axios from 'axios';
+import { getIdFromUrl } from '@/utils/get-id-from-url.ts';
 
 export interface Person {
     name: string;
@@ -17,12 +18,21 @@ export interface PeopleResponse {
 export function usePeople(page: number) {
     return useQuery<PeopleResponse>({
         queryKey: ['people', { page }],
-        queryFn: async ({ queryKey }): Promise<PeopleResponse> => {
+        queryFn: async ({ queryKey }) => {
             const [_key, { page }] = queryKey as [string, { page: number; }];
-            const response = await axios.get(
+            const response = await axios.get<PeopleResponse>(
                 `https://swapi.dev/api/people/?page=${page}`
             );
-            return response.data;
+            const updatedPeople = response.data.results.map((person) => {
+                const localKey = `person-${getIdFromUrl(person.url)}`;
+                const localData = localStorage.getItem(localKey);
+                if (localData) {
+                    return JSON.parse(localData);
+                }
+
+                return person;
+            });
+            return { ...response.data, results: updatedPeople };
         },
         placeholderData: keepPreviousData,
     });
